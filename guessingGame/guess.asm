@@ -119,7 +119,6 @@ __write:
 	mov eax, 4      ; syscall for writing
 	ret
 
-
 ; Declarations of Data 
 section .data
 
