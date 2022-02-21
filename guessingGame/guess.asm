@@ -143,8 +143,56 @@ _lose:
 	jmp _exit
 
 _convertok:
+
+    ; Compare input
+
+    cmp eax, [randint] ;Compares the value inside randint with eax
+    jg _toohigh ;jumps into _toohigh if the input value is higher than the compared value
+    jl _toolow ;jumps into _toolow  if the input value is lower than the compared value
+
+    ; You  win!
+
+    call __write ;Calls the write function
+    mov ebx, 1 ;Stdout
+    mov ecx, youwin 
+    mov edx, youwin_len
+    call __syscall
+
+    mov ebx, 1 ;Exit code for OK, win.
+
 _exit:
-	
+
+    push ebx ;Writes a value into ebx
+
+    ; Prints goodbye
+
+
+    mov ebx, 1 ;Stdout
+    mov ecx, goodbye
+    mov edx, goodbye_len
+    call __syscall
+    mov ebx, 2 ;Stdderr
+    call __syscall
+
+    ; Report OK.
+
+    call __write
+    mov ebx, 1 ; Stdout
+    mov ecx, _ok
+    mov edx, _ok_len
+    call __syscall
+    mov ebx, 2 ; Stdderr
+    call __syscall
+
+    ; Exit
+
+    call __exit
+    pop ebx ; The value written into ebx will be restored
+    call __syscall 
+
+
+; Procedures
+
 
 ;108 2ppl JP & Matt
 __itoa_init:
